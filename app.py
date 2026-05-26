@@ -1,38 +1,31 @@
 import streamlit as st
-import pandas as pd
-from sklearn.ensemble import RandomForestClassifier
+import numpy as np
+import pickle
 
-app = Flask(__name__)
+# Load trained model
+# Make sure your model file name is correct
+model = pickle.load(open("model.pkl", "rb"))
 
-# Load Dataset
-data = pd.read_csv(r"C:\Users\admin\Desktop\insta fake ac detection\instagram_fake.csv")
+# App Title
+st.title("📊 Instagram Fake Account Detection")
+st.write("Enter account details to check whether it is Fake or Real")
 
-X = data.drop("fake", axis=1)
-y = data["fake"]
+# Input fields (you can modify based on your dataset features)
+followers = st.number_input("Followers", min_value=0)
+following = st.number_input("Following", min_value=0)
+posts = st.number_input("Posts", min_value=0)
+bio_length = st.number_input("Bio Length", min_value=0)
 
-# Train Model
-model = RandomForestClassifier()
-model.fit(X, y)
+# Predict button
+if st.button("Predict"):
+    # Convert input to numpy array
+    input_data = np.array([[followers, following, posts, bio_length]])
 
-@app.route("/")
-def home():
-    return render_template("index.html")
+    # Prediction
+    prediction = model.predict(input_data)
 
-@app.route("/predict", methods=["POST"])
-def predict():
-
-    followers = int(request.form["followers"])
-    following = int(request.form["following"])
-    posts = int(request.form["posts"])
-    profile_pic = int(request.form["profile_pic"])
-    bio = int(request.form["bio"])
-
-    if followers > 1000 and posts > 20 and profile_pic == 1 and bio == 1:
-        result = "REAL Instagram Account"
+    # Output result
+    if prediction[0] == 1:
+        st.error("🚨 Fake Instagram Account Detected")
     else:
-        result = "FAKE Instagram Account"
-
-    return render_template("index.html", prediction=result)
-
-if __name__ == "__main__":
-    app.run(debug=True)
+        st.success("✅ Real Instagram Account")
