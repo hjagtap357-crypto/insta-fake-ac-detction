@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+import streamlit as st
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 
