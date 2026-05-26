@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Fake Account Detection</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body{
+            height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            background: linear-gradient(135deg,#667eea,#764ba2);
+        }
+
+        .container{
+            width:380px;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(15px);
+            border-radius:20px;
+            padding:35px;
+            box-shadow:0 8px 32px rgba(0,0,0,0.2);
+            text-align:center;
+            color:white;
+        }
+
+        h1{
+            margin-bottom:25px;
+            font-size:28px;
+        }
+
+        .input-box{
+            margin-bottom:18px;
+        }
+
+        input{
+            width:100%;
+            padding:12px;
+            border:none;
+            outline:none;
+            border-radius:10px;
+            background:rgba(255,255,255,0.2);
+            color:white;
+            font-size:15px;
+        }
+
+        input::placeholder{
+            color:#eee;
+        }
+
+        button{
+            width:100%;
+            padding:12px;
+            border:none;
+            border-radius:10px;
+            background:white;
+            color:#764ba2;
+            font-size:16px;
+            font-weight:bold;
+            cursor:pointer;
+            transition:0.3s;
+        }
+
+        button:hover{
+            transform:scale(1.03);
+        }
+
+        .result{
+            margin-top:20px;
+            font-size:22px;
+            font-weight:bold;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Instagram Fake Account Detection</h1>
+
+        <form action="/predict" method="POST">
+
+            <div class="input-box">
+                <input type="number" name="followers" placeholder="Followers Count" required>
+            </div>
+
+            <div class="input-box">
+                <input type="number" name="following" placeholder="Following Count" required>
+            </div>
+
+            <div class="input-box">
+                <input type="number" name="posts" placeholder="Number of Posts" required>
+            </div>
+
+            <div class="input-box">
+                <input type="number" name="profile_pic" placeholder="Profile Picture (1/0)" required>
+            </div>
+
+            <div class="input-box">
+                <input type="number" name="bio" placeholder="Bio Available (1/0)" required>
+            </div>
+
+            <button type="submit">Predict</button>
+
+        </form>
+
+        <div class="result">
+            {{ prediction }}
+        </div>
+
+    </div>
+
+</body>
+</html>
